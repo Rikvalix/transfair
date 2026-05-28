@@ -1,5 +1,7 @@
 package com.transfair.config
 
+import com.transfair.config.database.SqliteConfiguration
+
 /**
  * Initialize configuration and provide it to the application.
  */
@@ -7,12 +9,30 @@ object ConfigurationProvider {
 
     private var _storageConfiguration: StorageConfiguration? = null
 
+    // Database
+    private var _databaseConfiguration: DatabaseConfiguration? = null
+
+    private var _sqliteConfiguration: SqliteConfiguration? = null
+
     val storageConfiguration: StorageConfiguration
         get() = _storageConfiguration ?: throw IllegalStateException("Storage configuration is not initialized.")
 
-    fun initialize(storage: StorageConfiguration) {
-        if (_storageConfiguration == null) {
-            _storageConfiguration = storage
+    val databaseConfiguration: DatabaseConfiguration
+        get() = _databaseConfiguration ?: throw IllegalStateException("Database configuration is not initialized.")
+
+    val sqliteConfiguration: SqliteConfiguration
+        get() = _sqliteConfiguration ?: throw IllegalStateException("Sqlite configuration is not initialized.")
+
+    fun <T> initialize(config: T) {
+        when (config) {
+            is StorageConfiguration -> _storageConfiguration = config
+
+            is DatabaseConfiguration -> _databaseConfiguration = config
+            is SqliteConfiguration -> _sqliteConfiguration = config
         }
+    }
+
+    fun <T> initialize(configs: List<T>) {
+        configs.forEach { initialize(it) }
     }
 }

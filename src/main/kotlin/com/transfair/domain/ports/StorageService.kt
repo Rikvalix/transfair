@@ -6,7 +6,7 @@ import java.util.*
 
 interface StorageService {
 
-    suspend fun saveFile(fileId: UUID, content: InputStream): File
+    suspend fun saveFile(fileId: UUID, content: InputStream): Boolean
 
     suspend fun getFile(fileId: UUID): InputStream?
 

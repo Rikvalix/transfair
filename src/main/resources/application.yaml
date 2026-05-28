@@ -9,4 +9,8 @@ storage:
   type: local
   expiration: 604800 # Expiration in seconds
 
+database:
+  type: sqlite
+  url: jdbc:sqlite:data/tranfair.db
+  fileName: tranfair.db
 

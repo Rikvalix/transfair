@@ -35,6 +35,15 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
 
+    // Database
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.kotlinDatetime)
+    implementation(libs.exposed.javaTime)
+
+    implementation(libs.sqlite.jdbc)
+
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)
 }

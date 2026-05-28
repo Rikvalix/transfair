@@ -15,14 +15,14 @@ import kotlin.io.path.exists
 
 class LocalStorageService : StorageService {
 
-    override suspend fun saveFile(fileId: UUID, content: InputStream): File {
+    override suspend fun saveFile(fileId: UUID, content: InputStream): Boolean {
         withContext(Dispatchers.IO) {
             Files.createDirectories(Paths.get("files"))
             Files.createFile(Paths.get("files/$fileId"))
         }
         val file = File("files/$fileId")
         file.writeBytes(content.readBytes())
-        return file
+        return true
     }
 
     override suspend fun getFile(fileId: UUID): InputStream? {
