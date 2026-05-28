@@ -1,0 +1,12 @@
+ktor:
+  application:
+    modules:
+      - com.transfair.ApplicationKt.module
+  deployment:
+    port: 8080
+
+storage:
+  type: local
+  expiration: 604800 # Expiration in seconds
+
+
