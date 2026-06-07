@@ -1,7 +1,10 @@
 package com.transfair.infrastructure.storage
 
+import com.transfair.domain.exceptions.FunctionalException
 import com.transfair.domain.ports.StorageService
-import io.ktor.http.content.PartData
+import io.ktor.http.HttpStatusCode.Companion.NotFound
+import io.ktor.util.cio.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -9,28 +12,32 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
-import javax.naming.Context
 import kotlin.io.path.Path
 import kotlin.io.path.exists
+import kotlin.io.path.inputStream
 
 class LocalStorageService : StorageService {
 
-    override suspend fun saveFile(fileId: UUID, content: InputStream): Boolean {
-        withContext(Dispatchers.IO) {
+    override suspend fun saveFile(fileId: UUID, content: ByteReadChannel): Boolean {
+        return withContext(Dispatchers.IO) {
             Files.createDirectories(Paths.get("files"))
             Files.createFile(Paths.get("files/$fileId"))
+            val file = File("files/$fileId")
+            content.copyAndClose(file.writeChannel())
+
+            true
         }
-        val file = File("files/$fileId")
-        file.writeBytes(content.readBytes())
-        return true
     }
 
-    override suspend fun getFile(fileId: UUID): InputStream? {
-        val pathExist = Path("files/${fileId}").exists()
-        return if (pathExist)
-            File("files/${fileId}").inputStream()
-        else
-            null
+    override suspend fun getFile(fileId: UUID): InputStream {
+        return withContext(Dispatchers.IO) {
+            val pathExist = Path("files/${fileId}")
+            if (pathExist.exists())
+                pathExist.inputStream()
+            else
+                throw FunctionalException(status = NotFound, message = "File $fileId not found")
+        }
+
     }
 
     override suspend fun deleteFile(fileId: UUID): Boolean {

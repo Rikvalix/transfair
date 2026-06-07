@@ -1,4 +1,4 @@
-package com.transfair.routing.dto
+package com.transfair.routing.dto.output
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable

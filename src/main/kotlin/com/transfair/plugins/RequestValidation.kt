@@ -1,10 +1,9 @@
 package com.transfair.plugins
 
 import io.ktor.server.application.*
-import io.ktor.server.plugins.requestvalidation.RequestValidation
+import io.ktor.server.plugins.requestvalidation.*
 
 fun Application.configureRequestValidation() {
     install(RequestValidation) {
-
     }
 }

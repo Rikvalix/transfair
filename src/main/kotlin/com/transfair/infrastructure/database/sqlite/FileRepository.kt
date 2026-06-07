@@ -8,7 +8,7 @@ import java.util.*
 
 class FileRepository : FileRepository {
     override suspend fun saveFile(fileMetadata: FileMetadata): FileMetadata = transaction {
-        FileEntity.new {
+        FileEntity.new(fileMetadata.uuid) {
             fileName = fileMetadata.fileName
             size = fileMetadata.size
             createdAt = fileMetadata.createdAt
@@ -20,10 +20,10 @@ class FileRepository : FileRepository {
 
 
     override suspend fun findById(uuid: UUID): FileMetadata? = transaction {
-         FileEntity.findById(uuid)?.toDomain()
+        FileEntity.findById(uuid)?.toDomain()
     }
 
-    override suspend fun deleteFile(uuid: UUID): Boolean = transaction{
+    override suspend fun deleteFile(uuid: UUID): Boolean = transaction {
         val entity = FileEntity.findById(uuid) ?: return@transaction false
         entity.delete()
         return@transaction true
@@ -31,7 +31,7 @@ class FileRepository : FileRepository {
 
     override suspend fun incrementDownloads(uuid: UUID): Boolean = transaction {
         val entity = FileEntity.findById(uuid) ?: return@transaction false
-        entity.currentDownloads.plus(1);
+        entity.currentDownloads += 1
         return@transaction true
     }
 }

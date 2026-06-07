@@ -1,8 +1,8 @@
 package com.transfair.plugins
 
-import com.transfair.domain.ports.StorageService
 import com.transfair.domain.services.FileTransferService
-import com.transfair.routing.uploadRoutes
+import com.transfair.routing.routes.downloadRoutes
+import com.transfair.routing.routes.uploadRoutes
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
@@ -11,5 +11,6 @@ fun Application.configureRouting(
 ) {
     routing {
         uploadRoutes(transferService)
+        downloadRoutes(transferService)
     }
 }

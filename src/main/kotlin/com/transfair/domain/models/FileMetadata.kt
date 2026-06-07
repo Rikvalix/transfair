@@ -1,7 +1,7 @@
 package com.transfair.domain.models
 
 import kotlinx.datetime.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 data class FileMetadata(
     val uuid: UUID,
@@ -9,6 +9,6 @@ data class FileMetadata(
     val size: Long,
     val createdAt: LocalDateTime,
     val expireAt: LocalDateTime,
-    val maxDownloads: Int?,
-    val currentDownloads: Int = 0
-    ) {}
+    val maxDownloads: Int,
+    val currentDownloads: Int = 0,
+    )
