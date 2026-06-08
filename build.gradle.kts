@@ -44,6 +44,8 @@ dependencies {
 
     implementation(libs.sqlite.jdbc)
 
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito)
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)
 }
