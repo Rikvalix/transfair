@@ -6,9 +6,14 @@ import java.util.*
 data class FileMetadata(
     val uuid: UUID,
     val fileName: String,
-    val size: Long,
-    val createdAt: LocalDateTime,
-    val expireAt: LocalDateTime,
+    val fileSize: Long,
+    val fileType: String,
+    val checkSum: String,
+    val password: String?,
+    val title: String?,
+    val description: String?,
     val maxDownloads: Int,
     val currentDownloads: Int = 0,
-    )
+    val createdAt: LocalDateTime,
+    val expireAt: LocalDateTime,
+)

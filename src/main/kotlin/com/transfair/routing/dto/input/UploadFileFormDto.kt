@@ -1,27 +1,23 @@
 package com.transfair.routing.dto.input
 
-import com.transfair.utils.now
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UploadFileFormDto(
+    // Required
+    val fileName: String,
+    val fileType: String,
+    val fileSize: Long,
+    val checkSum: String,
+
+    // Optional
     val expiration: LocalDateTime? = null,
     val maxDownloads: Int? = null,
-    val fileName: String,
-    val size: Long
+    val title: String? = null,
+    val description: String? = null,
+    val password: String? = null,
 ) {
-    companion object {
-
-        fun fromMap(map: Map<String, Any?>): UploadFileFormDto {
-            return UploadFileFormDto(
-                expiration = LocalDateTime.parse(map["expiration"] as String? ?: LocalDateTime.now().toString()),
-                maxDownloads = (map["maxDownloads"] as String?)?.toInt(),
-                fileName = map["fileName"] as String,
-                size = (map["contentLength"] as String).toLong()
-            )
-        }
-    }
 }
 
 

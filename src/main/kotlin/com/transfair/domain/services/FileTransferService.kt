@@ -8,9 +8,7 @@ import com.transfair.domain.ports.StorageService
 import com.transfair.routing.dto.input.UploadFileFormDto
 import com.transfair.utils.now
 import com.transfair.utils.plusSeconds
-import io.ktor.utils.io.*
 import kotlinx.datetime.LocalDateTime
-import java.io.InputStream
 import java.util.*
 
 class FileTransferService(
@@ -20,27 +18,30 @@ class FileTransferService(
 
     private val storageConfig = ConfigurationProvider.storageConfiguration
 
-    suspend fun uploadFile(form: UploadFileFormDto, content: ByteReadChannel): FileMetadata {
+    suspend fun createMetadata(form: UploadFileFormDto): FileMetadata {
         try {
             val fileId = UUID.randomUUID()
-            storageService.saveFile(fileId, content)
 
             return fileRepository.saveFile(
                 FileMetadata(
-                    fileId,
-                    form.fileName,
-                    form.size,
-                    LocalDateTime.now(),
-                    form.expiration ?: LocalDateTime.now().plusSeconds(storageConfig.expiration),
-                    form.maxDownloads ?: 10,
+                    uuid = fileId,
+                    fileName = form.fileName,
+                    fileType = form.fileType,
+                    fileSize = form.fileSize,
+                    checkSum = form.checkSum,
+                    password = form.password,
+                    title = form.title,
+                    description = form.description,
+                    maxDownloads = form.maxDownloads ?: 10,
+                    createdAt = LocalDateTime.now(),
+                    expireAt = form.expiration ?: LocalDateTime.now().plusSeconds(storageConfig.expiration),
                 )
             )
         } catch (e: Exception) {
-            throw TechnicalException("Unexpected error occurred while uploading file: ${e.message}")
+            throw TechnicalException("Unexpected error occurred while create metadata file: ${e.message}")
         }
     }
 
-    suspend fun getFile(fileId: UUID): InputStream = storageService.getFile(fileId)
 
     suspend fun getFileMetadata(fileId: UUID): FileMetadata {
         val metadata =

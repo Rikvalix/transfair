@@ -15,4 +15,5 @@ database:
   fileName: transfair.db
 
 jwt:
-  secret: "0LC8XBQfhocZdYSzuUsWHMdl3AAZtJWFxXMhcnoqYNR"
+  secret:
+

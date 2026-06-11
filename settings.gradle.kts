@@ -1,4 +1,4 @@
-rootProject.name = "tranfair"
+rootProject.name = "transfair"
 
 pluginManagement {
     repositories {

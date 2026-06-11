@@ -8,7 +8,9 @@ import java.util.*
 val validateFileInputDto = Validator<UploadFileFormDto> { dto ->
     when {
         dto.fileName.isEmpty() -> ValidationResult.Invalid("fileName should not be empty")
-        dto.size <= 0 -> ValidationResult.Invalid("size should be greater than 0")
+        dto.fileType.isEmpty() -> ValidationResult.Invalid("fileType should not be empty")
+        dto.checkSum.isEmpty() -> ValidationResult.Invalid("checkSum should not be empty")
+        dto.fileSize <= 0 -> ValidationResult.Invalid("size should be greater than 0")
         dto.expiration != null && dto.expiration.toJavaLocalDateTime()
             .isBefore(java.time.LocalDateTime.now()) -> ValidationResult.Invalid("expiration should be greater than now")
 

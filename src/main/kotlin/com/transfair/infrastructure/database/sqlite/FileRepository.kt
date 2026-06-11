@@ -8,14 +8,18 @@ import java.util.*
 
 class FileRepository : FileRepository {
     override suspend fun saveFile(fileMetadata: FileMetadata): FileMetadata = transaction {
-        FileEntity.new(fileMetadata.uuid) {
+        val entity =  FileEntity.new(fileMetadata.uuid) {
             fileName = fileMetadata.fileName
-            size = fileMetadata.size
-            createdAt = fileMetadata.createdAt
+            fileSize = fileMetadata.fileSize
+            fileType = fileMetadata.fileType
+            checkSum = fileMetadata.checkSum
+            password = fileMetadata.password
+            title = fileMetadata.title
+            description = fileMetadata.description
             expireAt = fileMetadata.expireAt
             maxDownloads = fileMetadata.maxDownloads
         }
-        return@transaction fileMetadata
+        return@transaction entity.toDomain()
     }
 
 

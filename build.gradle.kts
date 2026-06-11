@@ -35,6 +35,11 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
 
+    // Jwt
+    implementation(libs.jjwt.api)
+    runtimeOnly(libs.jjwt.impl)
+    runtimeOnly(libs.jjwt.jackson)
+
     // Database
     implementation(libs.exposed.core)
     implementation(libs.exposed.dao)
@@ -44,8 +49,11 @@ dependencies {
 
     implementation(libs.sqlite.jdbc)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.mockito)
     testImplementation(kotlin("test"))
+    testImplementation(libs.junit)
     testImplementation(ktorLibs.server.testHost)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

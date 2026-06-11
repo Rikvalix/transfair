@@ -11,17 +11,28 @@ class FileEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<FileEntity>(table = FilesTable)
 
     var fileName by FilesTable.fileName
-    var size by FilesTable.size
+    var fileSize by FilesTable.fileSize
+    var fileType by FilesTable.fileType
+    var checkSum by FilesTable.checkSum
+    var password by FilesTable.password
+    var title by FilesTable.title
+    var description by FilesTable.description
     var createdAt by FilesTable.createdAt
     var expireAt by FilesTable.expireAt
     var maxDownloads by FilesTable.maxDownloads
     var currentDownloads by FilesTable.currentDownloads
 
+
     fun toDomain(): FileMetadata {
         return FileMetadata(
             uuid = id.value,
             fileName = fileName,
-            size = size,
+            fileType = fileType,
+            fileSize = fileSize,
+            checkSum = checkSum,
+            password = password,
+            title = title,
+            description = description,
             createdAt = createdAt,
             expireAt = expireAt,
             maxDownloads = maxDownloads,
