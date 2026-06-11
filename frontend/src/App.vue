@@ -12,6 +12,10 @@ const Layout = layouts[route.meta.layout] || Default;
 <template>
   <component :is="Layout">
     <RouterView/>
+    <Toast
+      position="bottom-right"
+      group="br"
+    />
   </component>
 </template>
 
